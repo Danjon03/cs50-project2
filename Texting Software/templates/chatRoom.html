@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat Room</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+        
+		<script>
+		
+		
+		
+		
+		
+		
+		
+document.addEventListener('DOMContentLoaded', () => {
+	
+	var texts = localStorage.getItem('listOfTexts');
+		texts[0] = "Skyrim Chat";
+		
+		const li = document.createElement('li');
+		li.innerHTML = texts[0];
+			document.querySelector('#votes').append(li);
+
+	
+	document.querySelector('#submit').onclick = () => {
+
+		//const request = new XMLHttpRequest();
+		
+		//get the value of what is inside the text box
+		const text = document.querySelector('#text').value;
+		
+		//creates a new list element and sets it to a string
+		
+		li.innerHTML = `Daniel: ${text}`;
+		
+		//creates a not complicated version of text and it
+		//is added to 'texts' and is added to the document
+		const theText = `Daniel: ${text}`;
+		document.querySelector('#votes').append(li);
+		texts.push(text);
+		
+		//resets the text box
+		document.querySelector("#text").value = '';
+		
+		//resets local storage
+		localStorage.setItem('listOfTexts', texts);
+		
+		return false;
+		
+	};
+	
+	
+                
+	
+	 
+	 
+	 
+	
+});
+		
+		</script>
+		
+		
+	</head>
+    <body>
+        <div class="container">
+            
+			
+			<ul id="votes">
+			
+			
+			</ul>
+
+			
+			<form id="form">
+			
+			<input id="text" autocomplete="off" autofocus placeholder="Type Here" type="text">
+			
+			<button id="submit">Submit</button>
+			
+			</form>
+        </div>
+    </body>
+</html>
