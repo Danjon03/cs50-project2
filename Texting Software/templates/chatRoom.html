@@ -3,76 +3,100 @@
     <head>
         <title>Chat Room</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-        
+		<script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+	
+	
 		<script>
-		
-		
-		
-		
-		
-		
-		
-document.addEventListener('DOMContentLoaded', () => {
+	document.addEventListener('DOMContentLoaded', () => {
 	
-	var texts = localStorage.getItem('listOfTexts');
-		texts[0] = "Skyrim Chat";
+	namespace = '/test';
+
+
+	var socket = io(namespace);
+	
+	const name = {{name|tojson}};
+	const chatName = {{chatName|tojson}};
+	
+	socket.on('connect', function() {
 		
+		//testing purposes alone
+		//alert("we are connecting")
+		
+		
+	
+		
+		document.querySelector('#submit').onclick = () => {
+			
+			//get the value of what is inside the text box
+			
+			const theText = document.querySelector('#text').value;
+			
+			
+			
+			const text = name + ": " + theText;
+			
+			//for testing purposes only
+			//alert(text);
+			socket.emit('announce', {text: text, chat: chatName});
+			
+			
+			
+			
+			
+			return false;
+			
+			
+		};
+		return false;
+	});
+	
+	
+	socket.on('announce text', function(msg) {
+		
+		// places the text on the screen
 		const li = document.createElement('li');
-		li.innerHTML = texts[0];
-			document.querySelector('#votes').append(li);
-
-	
-	document.querySelector('#submit').onclick = () => {
-
-		//const request = new XMLHttpRequest();
-		
-		//get the value of what is inside the text box
-		const text = document.querySelector('#text').value;
-		
-		//creates a new list element and sets it to a string
-		
-		li.innerHTML = `Daniel: ${text}`;
-		
-		//creates a not complicated version of text and it
-		//is added to 'texts' and is added to the document
-		const theText = `Daniel: ${text}`;
+		li.innerHTML = msg.text;
 		document.querySelector('#votes').append(li);
-		texts.push(text);
+		document.querySelector("#text").value = ''; 
 		
-		//resets the text box
-		document.querySelector("#text").value = '';
 		
-		//resets local storage
-		localStorage.setItem('listOfTexts', texts);
+		
 		
 		return false;
+	
+	
+	
+	});
+	
+	
+	
+	
 		
-	};
-	
-	
-                
-	
-	 
-	 
-	 
-	
-});
 		
+	
+	});
+
+	
+
 		</script>
 		
 		
 	</head>
     <body>
+	<h1>{{chatName}}</h1>
         <div class="container">
             
 			
 			<ul id="votes">
-			
+			{% for text in listOfTextsInChats %}
+				<li>{{text}}</li>
+			{% endfor %}
 			
 			</ul>
 
 			
-			<form id="form">
+			<form id="field">
 			
 			<input id="text" autocomplete="off" autofocus placeholder="Type Here" type="text">
 			
